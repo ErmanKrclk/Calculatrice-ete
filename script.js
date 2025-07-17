@@ -12,7 +12,7 @@ function onClick(value){
     }
 
     screen.innerText = buffer;
-}
+    }
 
 function handleSymbol(value){
     switch(value){
@@ -22,9 +22,72 @@ function handleSymbol(value){
             break;
         case '=':
             if(operateurPrecedent === 0){
-                return
+                return;
             } 
-            flush
+            flushOperation(parseInt(buffer));
+            operateurPrecedent = null;
+            buffer = runningTotal;
+            runningTotal = 0;
+            break;
+        case '←':
+            if(buffer.length === 1){
+                buffer = '0';
+            } else {
+                buffer = buffer.substring(0, buffer.length - 1);
+            }
+            break;
+        case '+':
+        case '-':
+        case '×':
+        case '÷':
+            handleMath(value);
+            break;
+
 
     }
 }
+    function handleMath(symbol){
+        if (buffer === '0'){
+            return;
+        }
+
+        const intBuffer = parseInt(buffer);
+
+        if (runningTotal === 0){
+            runningTotal = intBuffer;
+        } else {
+            flushOperation(intBuffer);
+
+        }
+        operateurPrecedent = symbol;
+        buffer = '0';
+    }
+
+    function flushOperation(intBuffer){
+        if( operateurPrecedent === '+'){
+            runningTotal += intBuffer;
+        } else if ( operateurPrecedent === '-'){
+            runningTotal -= intBuffer;
+        } else if ( operateurPrecedent === '×'){
+            runningTotal *= intBuffer;
+        } else if ( operateurPrecedent === '÷'){
+            runningTotal /= intBuffer;
+        }
+    
+    }
+
+    function handleNumber(numberString){
+        if (buffer === '0'){
+            buffer = numberString;
+        } else {
+            buffer += numberString;
+        }
+    }
+
+    function init(){
+        document.querySelector('.calc-boutons').addEventListener('click', function(event){
+            onClick(event.target.innerText);
+        })
+    }
+
+    init();
