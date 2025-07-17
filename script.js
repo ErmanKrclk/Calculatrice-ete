@@ -21,7 +21,7 @@ function handleSymbol(value){
             runningTotal = 0;
             break;
         case '=':
-            if(operateurPrecedent === 0){
+            if(operateurPrecedent === 0){8
                 return;
             } 
             flushOperation(parseInt(buffer));
@@ -37,7 +37,7 @@ function handleSymbol(value){
             }
             break;
         case '+':
-        case '-':
+        case '−':
         case '×':
         case '÷':
             handleMath(value);
@@ -66,7 +66,7 @@ function handleSymbol(value){
     function flushOperation(intBuffer){
         if( operateurPrecedent === '+'){
             runningTotal += intBuffer;
-        } else if ( operateurPrecedent === '-'){
+        } else if ( operateurPrecedent === '−'){
             runningTotal -= intBuffer;
         } else if ( operateurPrecedent === '×'){
             runningTotal *= intBuffer;
